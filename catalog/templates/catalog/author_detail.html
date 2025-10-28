@@ -1,0 +1,64 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<style>
+    .author-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .author-dates {
+        color: #666;
+        font-style: italic;
+        margin-bottom: 30px;
+    }
+    .books-section {
+        margin-top: 30px;
+    }
+    .books-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #333;
+        padding-bottom: 5px;
+    }
+    .book-item {
+        margin-bottom: 25px;
+        padding-left: 10px;
+    }
+    .book-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .book-summary {
+        color: #333;
+        line-height: 1.5;
+    }
+</style>
+
+<div class="author-name">{{ author.last_name }}, {{ author.first_name }}</div>
+<div class="author-dates">{{ author.get_formatted_dates }}</div>
+
+<div class="books-section">
+    <div class="books-title">Books</div>
+
+    {% for book in author.book_set.all %}
+    <div class="book-item">
+        <div class="book-title">
+            {{ book.title }}
+            {% with book.bookinstance_set.count as copy_count %}
+            {% if copy_count > 0 %}
+            ({{ copy_count }})
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        {% if book.summary %}
+        <div class="book-summary">{{ book.summary }}</div>
+        {% endif %}
+    </div>
+    {% empty %}
+    <div>No books available for this author.</div>
+    {% endfor %}
+</div>
+{% endblock %}
