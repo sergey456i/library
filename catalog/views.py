@@ -108,6 +108,7 @@ class AuthorCreate(CreateView):
     model = Author
     fields = '__all__'
     initial={'date_of_death':'12/10/2016',}
+    permission_required = 'catalog.can_mark_returned'
 
 class AuthorUpdate(UpdateView):
     model = Author
@@ -116,4 +117,20 @@ class AuthorUpdate(UpdateView):
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+
+class BookCreate(CreateView):
+    model = Book
+    fields = '__all__'
+    success_url = reverse_lazy('books')
+
+class BookUpdate(UpdateView):
+    model = Book
+    fields = ['title','author','due_back','publisher']
+
+class BookDelete(DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
+
+
+
 # Create your views here.
